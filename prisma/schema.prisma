@@ -1,0 +1,32 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+
+  @@map("user")
+}
+
+model Message {
+  id            Int      @id @default(autoincrement())
+  sender_sid    String
+  campaign_id   Int?
+  patient_id    Int
+  attempts      Int      @default(0)
+  response      Boolean  @default(false)
+  followup      Boolean  @default(false)
+  opt_out       Boolean  @default(false)
+  msgdata       String
+  date_created  DateTime @default(now())
+  date_modified DateTime @default(now()) @updatedAt
+
+  @@map("message")
+}
